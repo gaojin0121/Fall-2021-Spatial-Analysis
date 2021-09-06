@@ -35,7 +35,8 @@ library(ggspatial)
 library(raster)
 ```
 
- https://bostonopendata-boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
+```{r}
+zoning <- st_read("https://bostonopendata-boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
 boundary <- st_read("https://bostonopendata-boston.opendata.arcgis.com/datasets/142500a77e2a4dbeb94a86f7e0b568bc_9.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
 hospitals <- st_read("https://bostonopendata-boston.opendata.arcgis.com/datasets/8f1e5741a4ee4c0f82925d17aab3c002_2.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
 ```

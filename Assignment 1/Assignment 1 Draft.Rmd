@@ -1,5 +1,5 @@
 ---
-title: "Assignment 1 Draft"
+title: "Assignment 1 Draft Jin Gao"
 output: html_document
 ---
 
@@ -7,22 +7,125 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+library(sf)
+library(tidyverse)
+library(ggthemes)
+library(ggspatial)
+library(raster)
 ```
 
-## Including Plots
+## Attempt 01
 
-You can also embed plots, for example:
+Step 1: Read the data.
+```{r}
+FireStations <- st_read("https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Public_Safety/Fire_Stations/PUBLICSAFETY_FireStations.geojson",quiet = TRUE)
+OpenSpace <- st_read ("https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Open_Space/RECREATION_OpenSpace.topojson",quiet = TRUE)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+element_FireStations <- ggplot(FireStations) +
+  geom_sf(data = FireStations, shape = 18,color = "red", size = 3, alpha = 0.5)
+element_FireStations
+```
+
+
+```{r}
+element_OpenSpace <- ggplot(OpenSpace) +
+  geom_sf(data = OpenSpace, fill = "lightgreen", color = "gray")
+element_OpenSpace
+```
+
+
+```{r}
+element_OpenSpace <- ggplot(FireStations) +
+  geom_sf(data = FireStations, size = 0) +
+  annotation_map_tile(zoomin = 0, progress = "none", type = "cartolight")  +
+  geom_sf() +
+  labs(caption = "Map tiles and data by OpenStreetMap")
+element_OpenSpace
+```
+
+
+```{r}
+element_Legend <- ggplot(FireStations)
+  geom_sf() +
+  scale_fill_manual(values = "lightgreen", name = "") +
+  scale_color_manual(values = c("red", "grey"), name = "")
+element_Legend 
+```
+
+
+```{r}
+pdf("map_1.pdf", width = 5, height = 3)
+element_FireStations +
+element_OpenSpace +
+element_OSM +
+element_Legend
+dev.off()
+```
+
+## Attempt 02
+
+Step 1: Read the data.
+```{r}
+FireStations <- st_read("https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Public_Safety/Fire_Stations/PUBLICSAFETY_FireStations.geojson",quiet = TRUE)
+OpenSpace <- st_read ("https://github.com/cambridgegis/cambridgegis_data/raw/main/Recreation/Open_Space/RECREATION_OpenSpace.geojson",quiet = TRUE)
+```
+
+Step 2: Draw in one graph.
+
+```{r}
+ggplot() +
+  annotation_map_tile(zoomin = 0, progress = "none", type = "cartolight")  +
+  #scale_fill_manual(values = "lightgreen", name = "") +
+  #scale_color_manual(values = c("red"), name = "")  +
+  geom_sf(data = FireStations, shape = 8, color = "red", size = 3, alpha = 0.5) +
+  geom_sf(data = OpenSpace, fill = "lightgreen", color = NA) +
+  labs(caption = "Map tiles and data by OpenStreetMap") 
+```
+Adding legend
+
+```{r}
+Lightmap <- ggplot() +
+  annotation_map_tile(zoomin = 0, progress = "none", type = "cartolight")  +   #Adding OSM
+  
+  geom_sf(data = OpenSpace, aes(fill = "Openspace"), color = NA, alpha = 0.5) +  #Drawing Openspaces
+  geom_sf(data = FireStations, shape = 8, aes(color = "FireStations"), size = 3, alpha = 0.5) +  #Drawing Firestations
+
+  
+  scale_fill_manual(values = "lightgreen", name = "") +  #Drawing Legends
+  scale_color_manual(values = c("red"), name = "")+   
+  labs(caption = "Map tiles and data by OpenStreetMap") +  #Caption
+  theme(panel.background = element_rect(fill = "black"), legend.key = element_rect(fill = "lightgrey")) #Theme
+
+Lightmap #Plot
+```
+
+Dark Mode
+```{r}
+Darkmap <- ggplot() +
+  annotation_map_tile(zoomin = 0, progress = "none", type = "cartodark")  +   #Adding OSM
+  
+  geom_sf(data = OpenSpace, aes(fill = "Openspace"), color = NA, alpha = 1) +  #Drawing Openspaces
+  geom_sf(data = FireStations, shape = 8, aes(color = "FireStations"), size = 3, alpha = 1) +  #Drawing Firestations
+
+  scale_fill_manual(values = "darkgreen", name = "") +  #Drawing Legends
+  scale_color_manual(values = c("red"), name = "")+   
+  labs(caption = "Map tiles and data by OpenStreetMap") +  #Caption
+  theme(panel.background = element_rect(fill = "black"), legend.key = element_rect(fill = "lightgrey")) #Theme
+
+Darkmap
+```
+
+Output PDF
+```{r}
+pdf("Draft Outputs.pdf",width = 5, height = 5)
+Lightmap
+Darkmap
+dev.off()
+```
+
+
