@@ -31,8 +31,43 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 library(sf)
 library(tidyverse)
 library(ggthemes)
+library(ggspatial)
+library(raster)
+```
+
+ https://bostonopendata-boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
+boundary <- st_read("https://bostonopendata-boston.opendata.arcgis.com/datasets/142500a77e2a4dbeb94a86f7e0b568bc_9.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
+hospitals <- st_read("https://bostonopendata-boston.opendata.arcgis.com/datasets/8f1e5741a4ee4c0f82925d17aab3c002_2.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
+```
 
 ```{r}
-playgrounds <- st_read("https://bostonopendata-boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D",quiet = TRUE)
+ggplot(zoning) +
+  geom_sf(fill = "lightblue", color = NA) +
+  geom_sf(data = boundary, fill = NA, color = "gray",)
+```
+
+```{R}
+ggplot(zoning)+
+  geom_sf(data = zoning, fill = "lightblue", color = "darkblue")
+  geom_sf(data = hospitals, shape = 17,color = "red", size = 3, alpha = 0.5)
+
+```
+```{R}
+playgrounds_plot <- ggplot(playgrounds) +
+  geom_sf()
+playground_plot
+```
+```{r}
+buildings <- st_read("https://github.com/cambridgegis/cambridgegis_data/raw/main/Basemap/Buildings/BASEMAP_Buildings.topojson",quiet = TRUE)
+buildingsgson <- st_read ("https://github.com/cambridgegis/cambridgegis_data/raw/main/Basemap/Buildings/BASEMAP_Buildings.geojson",quiet = TRUE)
+```
+
+```{r}
+
+ggplot(playgrounds) +
+  annotation_map_tile(zoomin = 0, progress = "none", type = "cartolight")  +
+  geom_sf() +
+  labs(caption = "Map tiles and data by OpenStreetMap")
+
 ```
 

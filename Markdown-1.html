@@ -198,7 +198,16 @@ pre code {
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(ggthemes)</code></pre>
-<pre class="r"><code>playgrounds &lt;- st_read(&quot;https://bostonopendata-boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D&quot;,quiet = TRUE)</code></pre>
+<pre class="r"><code>playgrounds &lt;- st_read(&quot;https://bostonopendata-boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D&quot;,quiet = TRUE)
+boundary &lt;- st_read(&quot;https://bostonopendata-boston.opendata.arcgis.com/datasets/142500a77e2a4dbeb94a86f7e0b568bc_9.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D&quot;)</code></pre>
+<pre><code>## Reading layer `City_of_Boston_Boundary&#39; from data source 
+##   `https://bostonopendata-boston.opendata.arcgis.com/datasets/142500a77e2a4dbeb94a86f7e0b568bc_9.kml?outSR=%7B%22latestWkid%22%3A2249%2C%22wkid%22%3A102686%7D&#39; 
+##   using driver `KML&#39;
+## Simple feature collection with 1 feature and 2 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: -71.19084 ymin: 42.2279 xmax: -70.92347 ymax: 42.39695
+## Geodetic CRS:  WGS 84</code></pre>
 </div>
 
 
