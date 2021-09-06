@@ -49,14 +49,6 @@ element_OpenSpace
 ```
 
 
-```{r}
-element_Legend <- ggplot(FireStations)
-  geom_sf() +
-  scale_fill_manual(values = "lightgreen", name = "") +
-  scale_color_manual(values = c("red", "grey"), name = "")
-element_Legend 
-```
-
 
 ```{r}
 pdf("map_1.pdf", width = 5, height = 3)
